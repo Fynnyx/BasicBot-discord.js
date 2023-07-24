@@ -4,7 +4,9 @@
   "description": "discordc bot template for v14",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon --trace-warnings index.js"
   },
   "repository": {
     "type": "git",
@@ -17,7 +19,7 @@
   },
   "homepage": "https://github.com/Fynnyx/BasicBot-discord.js#readme",
   "dependencies": {
-    "ascii-table": "^0.0.9",
+    "ascii-table3": "^0.8.2",
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
     "glob": "^8.1.0"

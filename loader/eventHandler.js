@@ -1,20 +1,18 @@
-const asciiTable = require('ascii-table');
 
 async function loadEvents(client) {
     const { loadFiles } = require('../helper/fileLoader');
-    const ascii = require('ascii-table');
-    const asciiTable = new ascii("Events");
-    asciiTable.setHeading("Event", "Load status");
-
+    const { AsciiTable3 } = require('ascii-table3');
+    const asciiTable = new AsciiTable3("Events");
+    asciiTable.setHeading("Event", "Usage", "Load status");
+    
     // Clear the events collection
     await client.events.clear();
 
     const files = await loadFiles('events');
-
+    console.log(files);
     for (const file of files) {
-        const event = require(file);
         try {
-
+            const event = require(file);
 
             const execute = (...args) => event.execute(...args, client);
             client.events.set(event.name, execute);
@@ -32,13 +30,15 @@ async function loadEvents(client) {
                     client.on(event.name, execute);
                 }
             }
-            asciiTable.addRow(event.name, "✅");
+            asciiTable.addRow(event.name, event.usage, "✅");
         } catch (err) {
             console.error(err);
-            asciiTable.addRow(event.name, `❌ -> ${err.message}`);
+            const path = file.split('/');
+            const fileName = path[path.length - 1];
+            asciiTable.addRow(fileName, "!! Error occured !!", `❌ -> ${err.message}`);
         }
     }
-    return console.info(asciiTable.toString());
+    console.info(asciiTable.toString());
 }
 
 module.exports = { loadEvents };
